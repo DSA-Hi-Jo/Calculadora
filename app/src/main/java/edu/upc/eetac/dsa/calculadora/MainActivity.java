@@ -32,6 +32,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         btnReset.setOnClickListener(this);
         btnResult.setOnClickListener(this);
+
+        input1.setOnClickListener(this);
+        input2.setOnClickListener(this);
     }
 
 
@@ -98,6 +101,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
             {
                 if (op != "") {
 
+                    String text1 = input1.getText().toString();
+                    String text2 = input2.getText().toString();
+
+                    try {
+                        int num = Integer.parseInt(text1);
+                        int num2 = Integer.parseInt(text2);
+                    } catch (NumberFormatException e) {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Los numeros introducidos no son enteros";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast.makeText(context, text, duration).show();
+                        break;
+                    }
+
+
                     num1 = Float.parseFloat(input1.getText().toString());
                     num2 = Float.parseFloat(input2.getText().toString());
 
@@ -127,7 +145,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 input2.setText("0");
             }
             break;
-}
+            case R.id.input2:
+            {
+                input2.getText().clear();
+            }
+            case R.id.input1:
+            {input1.getText().clear();}
+            break;
+        }
 
     }
 }

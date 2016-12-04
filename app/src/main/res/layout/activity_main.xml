@@ -68,10 +68,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/input1"
         android:text="0"
+        android:background="#C1E9DB"
         android:gravity="center"
         android:layout_above="@+id/output"
         android:layout_alignStart="@+id/input2"
-        android:layout_marginBottom="62dp" />
+        android:inputType="number"
+        android:layout_marginBottom="62dp"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -79,19 +82,23 @@
         android:id="@+id/input2"
         android:text="0"
         android:gravity="center"
+        android:background="#C1E9DB"
+        android:inputType="number"
         android:layout_below="@+id/textView2"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/output"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/output"
+        android:focusable="false"
         android:text="0"
         android:gravity="center"
 
-        android:layout_marginEnd="36dp"
         android:layout_above="@+id/buttonRes"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/textView4" />
 
     <Button
         android:layout_width="wrap_content"
@@ -118,7 +125,7 @@
         android:maxLines="1"
         android:inputType="number"
         android:layout_alignBottom="@+id/output"
-        android:layout_toEndOf="@+id/buttonRes" />
+        android:layout_toEndOf="@+id/textView" />
 
     <TextView
         android:text="Primer Número"
@@ -139,5 +146,14 @@
         android:maxLines="1"
         android:layout_alignBottom="@+id/input2"
         android:layout_toStartOf="@+id/input2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Historial"
+        android:id="@+id/buttonHistorial"
+        android:layout_below="@+id/buttonReset"
+        android:layout_alignStart="@+id/buttonReset"
+        android:layout_alignEnd="@+id/buttonReset" />
 
 </RelativeLayout>
