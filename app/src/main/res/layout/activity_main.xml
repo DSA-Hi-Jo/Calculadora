@@ -74,7 +74,8 @@
         android:layout_alignStart="@+id/input2"
         android:inputType="number"
         android:layout_marginBottom="62dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -86,7 +87,8 @@
         android:inputType="number"
         android:layout_below="@+id/textView2"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/output"/>
+        android:layout_alignStart="@+id/output"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -98,7 +100,8 @@
 
         android:layout_above="@+id/buttonRes"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/textView4" />
+        android:layout_toEndOf="@+id/textView4"
+        android:singleLine="true" />
 
     <Button
         android:layout_width="wrap_content"

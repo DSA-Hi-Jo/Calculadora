@@ -3,65 +3,103 @@ package edu.upc.eetac.dsa.calculadora;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    String op = "";
+    String op = "",op_back;
     float resultado = 0;
     EditText input1, input2, output;
-    Button btnResult,btnReset;
+    Button btnResult,btnReset,btnHistorial;
     float num1,num2;
+    List<String> listoperaciones = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         input1 = (EditText) findViewById(R.id.input1);
-         input2 = (EditText) findViewById(R.id.input2);
-         output = (EditText) findViewById(R.id.output);
-         btnResult = (Button) findViewById(R.id.buttonRes);
-         btnReset = (Button) findViewById(R.id.buttonReset);
+        input1 = (EditText) findViewById(R.id.input1);
+        input2 = (EditText) findViewById(R.id.input2);
+        output = (EditText) findViewById(R.id.output);
+        btnResult = (Button) findViewById(R.id.buttonRes);
+        btnReset = (Button) findViewById(R.id.buttonReset);
+        btnHistorial = (Button) findViewById(R.id.buttonHistorial);
 
         btnReset.setOnClickListener(this);
         btnResult.setOnClickListener(this);
-
+        btnHistorial.setOnClickListener(this);
         input1.setOnClickListener(this);
         input2.setOnClickListener(this);
+
+
+        Intent i = getIntent();
+        boolean a = i.hasExtra("Operaciones_Back");
+        if(i.hasExtra("Operaciones_Back"))
+        {
+            try {
+                // String b = i.getExtras().getString("Operaciones_Back");
+                if ((i.getExtras().getString("Operaciones_Back")) != "") {
+                    op_back = i.getExtras().getString("Operaciones_Back");
+                    makeOp(op_back);
+                }
+            } catch (NullPointerException e) {
+                String err = e.toString();
+            }
+            if(!i.getStringArrayListExtra("Lista_Operaciones").isEmpty())
+            {
+                listoperaciones = i.getStringArrayListExtra("Lista_Operaciones");
+            }
+        }
+        input1.setOnEditorActionListener(
+                new EditText.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                                actionId == 5 /*EditorInfo.IME_ACTION_DONE*/ ||
+                                event.getAction() == KeyEvent.ACTION_DOWN &&
+                                        event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                            //  if (!event.isShiftPressed()) {
+                            // the user is done typing.
+
+                            return true; // consume.
+                            // }
+                        }
+                        else {
+                            return false; // pass on to other listeners.
+                        }
+                    }
+                });
     }
 
 
-    public void operacion(String input1, String input2, String operacion)
-    {
-        if(operacion == "+")
-        {
 
-        }
-        if(operacion == "-")
-        {
+    public void makeOp(String operacion){
 
-        }
-        if(operacion == "/")
-        {
+        String[] parts = operacion.split(":");
+        String[] oper = parts[1].split(" ");
+        String numero1 = oper[1];
+        String operation = oper[2];
+        String numero2 = oper[3];
+        String result = oper[5];
+        input1.setText(numero1);
+        input2.setText(numero2);
+        output.setText("");
 
-        }
-        if (operacion =="*")
-        {
+        //if(operation =="+")
 
-        }
-
-    }
-
-
-    public void reset(View view)
-    {
 
     }
 
@@ -119,15 +157,22 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     num1 = Float.parseFloat(input1.getText().toString());
                     num2 = Float.parseFloat(input2.getText().toString());
 
-                    if(op =="+")
-                        resultado = (num1)+ (num2);
-                    if(op =="-")
-                        resultado = (num1)- (num2);
-                    if(op =="/")
-                        resultado = (num1)/ (num2);
-                    if(op =="*")
-                        resultado = (num1)* (num2);
-
+                    if(op =="+") {
+                        resultado = (num1) + (num2);
+                        listoperaciones.add(num1 + " + " + num2 + " = " + resultado);
+                    }
+                    if(op =="-") {
+                        resultado = (num1) - (num2);
+                        listoperaciones.add(num1 + " + " + num2 + " = " + resultado);
+                    }
+                    if(op =="/") {
+                        resultado = (num1) / (num2);
+                        listoperaciones.add(num1 + " + " + num2 + " = " + resultado);
+                        }
+                    if(op =="*") {
+                        resultado = (num1) * (num2);
+                        listoperaciones.add(num1 + " + " + num2 + " = " + resultado);
+                            }
                     output.setText("" + (resultado));
 
                 } else {
@@ -149,10 +194,31 @@ public class MainActivity extends Activity implements View.OnClickListener {
             {
                 input2.getText().clear();
             }
+            break;
             case R.id.input1:
-            {input1.getText().clear();}
+            {input1.getText().clear();
+            }
+            break;
+            case R.id.buttonHistorial:
+            {
+                Intent historialIntent = new Intent(this, HistorialActivity.class);
+                historialIntent.putStringArrayListExtra("Lista_Operaciones", (ArrayList<String>) listoperaciones);
+                startActivity(historialIntent);
+                finish();
+
+            }
             break;
         }
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+
+            }
+        }
     }
 }
