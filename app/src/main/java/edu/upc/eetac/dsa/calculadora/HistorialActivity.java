@@ -27,7 +27,7 @@ public class HistorialActivity extends Activity implements View.OnClickListener 
     ArrayAdapter<String> miArrayAdapter;
     String selectedFromList;
     EditText opTxt;
-    Button btnVolver;
+    Button btnVolver,btnBorrar;
     Intent i;
     int pos=500;
 
@@ -38,6 +38,8 @@ public class HistorialActivity extends Activity implements View.OnClickListener 
         miListView = (ListView) findViewById(R.id.listView2);
         opTxt = (EditText) findViewById(R.id.editText2);
         btnVolver = (Button) findViewById(R.id.button3);
+        btnBorrar = (Button) findViewById(R.id.buttonBorrar);
+
         i = getIntent();
         if(!(i.getStringArrayListExtra("Lista_Operaciones").isEmpty())) {
             listoperaciones = i.getStringArrayListExtra("Lista_Operaciones");
@@ -97,7 +99,7 @@ public class HistorialActivity extends Activity implements View.OnClickListener 
             }
         });
 
-
+        btnBorrar.setOnClickListener(this);
         btnVolver.setOnClickListener(this);
     }
     @Override
@@ -120,8 +122,7 @@ public class HistorialActivity extends Activity implements View.OnClickListener 
                         int po= Integer.parseInt(b);
                         pos = po;
                     }
-                   if(selectedFromList==null)
-                           if (pos<=listoperaciones.size()){
+                           if (pos<listoperaciones.size()){
                                selectedFromList = (String) (miListView.getItemAtPosition(pos));
 
                            Intent backIntent = new Intent(this, MainActivity.class);
@@ -136,19 +137,25 @@ public class HistorialActivity extends Activity implements View.OnClickListener 
                            CharSequence text = "El num de operación introducido esta fuera de rango";
                            int duration = Toast.LENGTH_LONG;
                            Toast.makeText(context, text, duration).show();
-                           break;
                        }
-
+                    break;
                 }
                 else {
                     Context context = getApplicationContext();
-                    CharSequence text = "Debe seleccionar un numero de operación o seleccionar una de la lista";
+                    CharSequence text = "Debe seleccionar un numero de operación y validarlo o seleccionar una de la lista";
                     int duration = Toast.LENGTH_LONG;
                     Toast.makeText(context, text, duration).show();
                     break;
                 }
             }
-
+            case R.id.buttonBorrar: {
+                Intent backIntent = new Intent(this, BorrarActivity.class);
+                backIntent.putExtra("Operaciones_Back", selectedFromList);
+                backIntent.putStringArrayListExtra("Lista_Operaciones", (ArrayList<String>) listoperaciones);
+                startActivity(backIntent);
+                finish();
+                break;
+            }
         }
     }
 }

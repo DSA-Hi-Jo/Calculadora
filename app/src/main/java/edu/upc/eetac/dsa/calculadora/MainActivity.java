@@ -204,7 +204,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Intent historialIntent = new Intent(this, HistorialActivity.class);
                 historialIntent.putStringArrayListExtra("Lista_Operaciones", (ArrayList<String>) listoperaciones);
                 startActivity(historialIntent);
-                finish();
+               // finish();
 
             }
             break;
